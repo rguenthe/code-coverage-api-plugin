@@ -147,6 +147,21 @@ All reports found by the adapter will then be combined into a single report:
 ```
 publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: '**/*.xml')]
 ```
+
+##### Access Coverage From Pipeline
+You can access code coverage values from pipelines after publishing the results. The step returns an integer value representing the coverage in percent.
+
+```
+
+publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
+
+def lineCoverage = getCoverage([element:'Line'])
+def branchCoverage = getCoverage('Conditional')
+
+```
+
+Coverage elements `'Line'` and `'Conditional'` are supported by most adapters. If the given coverage element is not available or empty the function returns `0`.
+
 ## REST API
 We provide a REST API to retrieve coverage data:
 - Coverage result: `…​/{buildNumber}/coverage/…​/result/api/\{json|xml\}?depth={number}`
